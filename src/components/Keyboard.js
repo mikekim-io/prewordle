@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export const Keyboard = (props) => {
-  const onClick = (event) => {
-    const key = event.target.textContent;
+  useEffect(() => {
+    console.log('Loaded event listener');
+    document.body.addEventListener('keydown', (e) => {
+      console.log(e);
+      const key = e.keyCode || 0;
+      if (key === 8 || key === 46) {
+        // TODO: if user presses DELETE/Backspace, delete last letter from attempt input.
+        console.log(`Pressed ${e.key}`);
+      } else if (key === 13) {
+        // TODO: if user presses ENTER, attempt submission.
+        console.log(`Pressed ${e.key}`);
+      } else if (key >= 65 && key <= 90) {
+        // TODO: if user presses any 65-90 (a-z), add to attempt input.
+        console.log(`Pressed ${e.key.toUpperCase()}`);
+      }
+    });
+  }, []);
+
+  // Virtual Keyboard
+  const onClick = (e) => {
+    const key = e.target.textContent;
     if (key === '\u232B') {
       console.log('Clicked backspace');
       // TODO: if user clicks VKeyboard backspace, delete last letter from attempt input.
