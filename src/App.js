@@ -1,23 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
+import Board from './components/Board';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App container mx-auto grid grid-rows 2 justify-center">
+      <h1 className="text-center text-2xl font-sans font-bold p-8">
+        PREWORDLE
+      </h1>
+      <Board />
     </div>
   );
 }
