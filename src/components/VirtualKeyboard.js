@@ -7,18 +7,8 @@ export const VirtualKeyboard = (props) => {
     const onKeyDown = (e) => {
       if (!pressed) {
         const key = e.key || 0;
-        const re = /[a-z]/i;
 
-        if (key === 'Backspace' || key === 'Delete') {
-          // TODO: if user presses DELETE/Backspace, delete last letter from attempt input.
-          console.log(`Pressed ${e.key}`);
-        } else if (key === 'Enter') {
-          // TODO: if user presses ENTER, attempt submission.
-          console.log(`Pressed ${e.key}`);
-        } else if (re.test(key) && key.length === 1) {
-          // TODO: if user presses any letter a-z, add to attempt input.
-          console.log(`Pressed ${e.key.toUpperCase()}`);
-        }
+        props.handleInput(key);
 
         setPressed(true);
       }
@@ -37,21 +27,17 @@ export const VirtualKeyboard = (props) => {
       document.body.removeEventListener('keydown', onKeyDown);
       document.body.removeEventListener('keyup', onKeyUp);
     };
-  }, [pressed]);
+  }, [pressed, props]);
 
   // Virtual Keyboard
   const onClick = (e) => {
-    const key = e.target.textContent;
+    let key = e.target.textContent;
     if (key === '\u232B') {
-      console.log('Clicked backspace');
+      key = 'Backspace';
       // TODO: if user clicks VKeyboard backspace, delete last letter from attempt input.
-    } else if (key === 'ENTER') {
-      console.log('Clicked ENTER');
-      // TODO: if user clicks VKeyboard ENTER, attempt submission.
-    } else {
-      console.log(`Clicked ${key}`);
-      // TODO: if user clicks VKeyboard letter, add to attempt input.
     }
+
+    props.handleInput(key);
   };
 
   const layout = [
