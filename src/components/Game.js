@@ -1,12 +1,12 @@
 import React from 'react';
 import Board from './Board';
-import Keyboard from './Keyboard';
+import VirtualKeyboard from './VirtualKeyboard';
 
 export const Game = (props) => {
   return (
     <>
       <Board />
-      <Keyboard />
+      <VirtualKeyboard />
     </>
   );
 };
