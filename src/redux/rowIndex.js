@@ -1,7 +1,7 @@
 const UPDATE_ROW_INDEX = 'UPDATE_ROW_INDEX';
 
 export const updateRowIndex = () => ({
-  action: UPDATE_ROW_INDEX,
+  type: UPDATE_ROW_INDEX,
 });
 
 export default function updateRowIndexReucer(rowIndex = 0, action) {
