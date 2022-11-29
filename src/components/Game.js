@@ -9,11 +9,11 @@ import {
   checkValidLength,
   checkValidWord,
 } from './utils/validator';
+import NavBar from './NavBar';
 
 export const Game = (props) => {
   const guess = props.guesses[props.rowIndex];
   const rowIndex = props.rowIndex;
-  // (TEST) word of the day
 
   const handleInput = (key) => {
     const re = /[a-z]/i;
@@ -55,10 +55,11 @@ export const Game = (props) => {
   }
 
   return (
-    <>
+    <div className="flex flex-col justify-between min-h-screen">
+      <NavBar />
       <Board />
       <VirtualKeyboard handleInput={handleInput} />
-    </>
+    </div>
   );
 };
 

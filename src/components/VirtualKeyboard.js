@@ -47,21 +47,26 @@ export const VirtualKeyboard = (props) => {
   ];
 
   return (
-    <div className="grid gap-1 grid-rows-3 justify-center">
-      {layout.map((row, rowIdx) => (
-        <div className="grid grid-flow-col gap-1 justify-center" key={rowIdx}>
-          {row.split(' ').map((l, idx) => (
-            <div
-              className="text-base font-semibold uppercase align-middle text-center p-7 bg-gray-300 rounded"
-              onClick={onClick}
-              key={idx}
-              val={l}
-            >
-              {l}
-            </div>
-          ))}
-        </div>
-      ))}
+    <div className="flex-initial">
+      <div className="grid gap-1 grid-rows-3 justify-center pb-2">
+        {layout.map((row, rowIdx) => (
+          <div
+            className="grid grid-flow-col gap-1.5 justify-center"
+            key={rowIdx}
+          >
+            {row.split(' ').map((l, idx) => (
+              <div
+                className="text-base font-semibold uppercase align-middle text-center py-5 px-4 bg-gray-300 rounded"
+                onClick={onClick}
+                key={idx}
+                val={l}
+              >
+                {l}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

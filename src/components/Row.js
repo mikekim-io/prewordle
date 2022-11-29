@@ -7,11 +7,11 @@ export const Row = (props) => {
     props.guess.slice(0, props.guess.length) +
     ' '.repeat(5 - props.guess.length);
   return (
-    <>
+    <div className="grid grid-cols-5 gap-1.5">
       {word.split('').map((letter, idx) => (
         <Tile key={idx} letter={letter} />
       ))}
-    </>
+    </div>
   );
 };
 
