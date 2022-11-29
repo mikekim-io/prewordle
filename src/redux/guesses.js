@@ -23,7 +23,7 @@ export const removeLetter = (rowIndex) => ({
   type: REMOVE_LETTER,
   rowIndex,
 });
-const INITIAL_STATE = ['', '', '', '', '', ''];
+const INITIAL_STATE = ['abcde', 'abcde', 'abcde', 'abcde', 'abcde', 'abcde'];
 
 export default function guessesReducer(guesses = INITIAL_STATE, action) {
   switch (action.type) {
