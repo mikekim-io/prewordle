@@ -1,50 +1,61 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Board from './Board';
 import VirtualKeyboard from './VirtualKeyboard';
 import { connect } from 'react-redux';
 import { addLetter, removeLetter } from '../redux/guesses';
 import { updateRowIndex } from '../redux/rowIndex';
+import {
+  checkSolution,
+  checkValidLength,
+  checkValidWord,
+} from './utils/validator';
 
 export const Game = (props) => {
-  const [guess, setGuess] = useState('');
-  const [count, setCount] = useState(0);
+  const guess = props.guesses[props.rowIndex];
+  const rowIndex = props.rowIndex;
+  // (TEST) word of the day
 
   const handleInput = (key) => {
     const re = /[a-z]/i;
-    if (props.rowIndex < 6) {
+    if (rowIndex < 6) {
       if ((key === 'Backspace' || key === 'Delete') && guess.length > 0) {
-        setGuess((guess) => guess.slice(0, guess.length - 1));
-        //send event to redux store
-        props.removeLetter(props.rowIndex);
+        props.removeLetter(rowIndex);
+      } else if (re.test(key) && key.length === 1 && guess.length < 5) {
+        let letter = key.toLowerCase();
+        props.addLetter(letter, rowIndex);
       } else if (key.toLowerCase() === 'enter') {
         handleSubmit();
-      } else if (re.test(key) && key.length === 1 && guess.length < 5) {
-        setGuess((guess) => (guess += key.toLowerCase()));
-        //send event to redux store
-        let letter = key.toLowerCase();
-        props.addLetter(letter, props.rowIndex);
       }
     }
   };
 
   const handleSubmit = () => {
-    alert(`Submitting word ${guess}`);
-    // TODO: Submit new guesses to redux store
-    // Update guesses array.
-    setGuess('');
-    setCount(count + 1);
-    // send event to redux store
-    // TODO: validator for word length, word existence
-    props.updateRowIndex();
+    const validLength = checkValidLength(guess);
+    const validWord = checkValidWord(guess);
+    const matchWord = checkSolution(guess);
+
+    if (!validLength) {
+      alert(`Not enough letters`);
+    } else if (!validWord) {
+      alert('Not in word list');
+    } else {
+      alert(`Submitting word ${guess}`);
+      checkSolution(guess);
+      props.updateRowIndex();
+    }
+
+    if (matchWord) {
+      alert(`WINNER WINNER`);
+    }
   };
 
   // end state (bug, repeats twice)
-  if (count === 6 && props.rowIndex === 6) {
+  if (rowIndex === 6) {
     alert('Ran out of guesses; game over');
   }
+
   return (
     <>
-      <div className="font-sans font-extrabold">{guess}</div>
       <Board />
       <VirtualKeyboard handleInput={handleInput} />
     </>
@@ -52,6 +63,7 @@ export const Game = (props) => {
 };
 
 const mapState = (state) => ({
+  guesses: state.guesses,
   rowIndex: state.rowIndex,
 });
 
