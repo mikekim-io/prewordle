@@ -1,9 +1,9 @@
 import React from 'react';
-import { colorEvaluation } from './utils/validator';
+import { colorEvaluator } from './utils/validator';
 
 export const Tile = (props) => {
   const tileEvaluation = props.tileEvaluation;
-  const evalColor = colorEvaluation(tileEvaluation);
+  const evalColor = colorEvaluator(tileEvaluation, 'tile');
 
   return (
     <div

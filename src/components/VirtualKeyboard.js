@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { colorEvaluator } from './utils/validator';
 
 export const VirtualKeyboard = (props) => {
   const [pressed, setPressed] = useState(false);
+  const keyEvaluations = props.keyEvaluations;
 
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -54,16 +56,24 @@ export const VirtualKeyboard = (props) => {
             className="grid grid-flow-col gap-1.5 justify-center"
             key={rowIdx}
           >
-            {row.split(' ').map((l, idx) => (
-              <div
-                className="text-base font-semibold uppercase align-middle text-center py-5 px-4 bg-gray-300 rounded"
-                onClick={onClick}
-                key={idx}
-                val={l}
-              >
-                {l}
-              </div>
-            ))}
+            {row.split(' ').map((l, idx) => {
+              console.log(keyEvaluations[l.toLowerCase()]);
+              const evalColor = colorEvaluator(
+                keyEvaluations[l.toLowerCase()],
+                'key'
+              );
+              console.log(evalColor);
+              return (
+                <div
+                  className={`text-base font-semibold uppercase align-middle text-center py-5 px-4 rounded ${evalColor}`}
+                  onClick={onClick}
+                  key={idx}
+                  val={l}
+                >
+                  {l}
+                </div>
+              );
+            })}
           </div>
         ))}
       </div>

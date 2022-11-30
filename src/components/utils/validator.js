@@ -27,8 +27,8 @@ export const checkSolution = (guess) => {
   return evaluation;
 };
 
-export const colorEvaluation = (tileEvaluation) => {
-  switch (tileEvaluation) {
+export const colorEvaluator = (evaluation, typeEvaluator) => {
+  switch (evaluation) {
     case EVALUATION.CORRECT:
       return 'bg-correct text-white';
     case EVALUATION.PRESENT:
@@ -36,9 +36,37 @@ export const colorEvaluation = (tileEvaluation) => {
     case EVALUATION.ABSENT:
       return 'bg-absent text-white';
     default:
-      return 'border-2 border-gray-300';
+      if (typeEvaluator === 'tile') {
+        return 'border-2 border-gray-300';
+      } else if (typeEvaluator === 'key') {
+        return 'bg-gray-300';
+      }
   }
 };
 
 export const isCorrect = (currentLetter) =>
   currentLetter === EVALUATION.CORRECT;
+
+export const keyEvaluator = (keyEvalObj, guess) => {
+  const evaluation = checkSolution(guess);
+  for (let i = 0; i < guess.length; i++) {
+    const letter = guess[i];
+    if (letter in keyEvalObj) {
+      if (
+        keyEvalObj[letter] === EVALUATION.CORRECT ||
+        keyEvalObj === EVALUATION.ABSENT
+      ) {
+        continue;
+      } else if (
+        keyEvalObj[letter] === EVALUATION.PRESENT &&
+        evaluation[i] === EVALUATION.CORRECT
+      ) {
+        keyEvalObj[letter] = EVALUATION.CORRECT;
+      }
+    } else {
+      keyEvalObj[letter] = evaluation[i];
+    }
+  }
+
+  return keyEvalObj;
+};
