@@ -2,15 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Row from './Row';
 
-// for testing
-// const guesses = ['     ', '     ', '     ', '     ', '     ', '     '];
-
 export const Board = (props) => {
+  const boardEvaluations = props.boardEvaluations;
+
   return (
     <div className="flex-initial">
       <div className="grid grid-rows-6 justify-center gap-1.5">
         {props.guesses.map((guess, i) => {
-          return <Row key={i} guess={guess} />;
+          return (
+            <Row key={i} guess={guess} rowEvaluation={boardEvaluations[i]} />
+          );
         })}
       </div>
     </div>
