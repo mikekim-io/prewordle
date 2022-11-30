@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Board from './Board';
 import VirtualKeyboard from './VirtualKeyboard';
 import { connect } from 'react-redux';
@@ -8,10 +8,18 @@ import {
   checkSolution,
   checkValidLength,
   checkValidWord,
+  isCorrect,
 } from './utils/validator';
 import NavBar from './NavBar';
 
 export const Game = (props) => {
+  const [boardEvaluations, setBoardEvaluations] = useState([]);
+  // filter for each of the letters, after evaluation
+  // update corresponding state (absent, present, correct)
+  // send that information to the virtual keyboard
+  // checkSolution should also pass this state down
+  // const [letterEvaluations, setLetterEvaluations] = useState({});
+
   const guess = props.guesses[props.rowIndex];
   const rowIndex = props.rowIndex;
 
@@ -32,7 +40,6 @@ export const Game = (props) => {
   const handleSubmit = () => {
     const validLength = checkValidLength(guess);
     const validWord = checkValidWord(guess);
-    const matchWord = checkSolution(guess);
 
     if (!validLength) {
       alert(`Not enough letters`);
@@ -40,24 +47,27 @@ export const Game = (props) => {
       alert('Not in word list');
     } else {
       alert(`Submitting word ${guess}`);
-      checkSolution(guess);
-      props.updateRowIndex();
-    }
+      const rowEvaluation = checkSolution(guess);
+      setBoardEvaluations([...boardEvaluations, rowEvaluation]);
+      if (rowEvaluation.every(isCorrect)) {
+        alert(`WINNER WINNER`);
+        return;
+      }
 
-    if (matchWord) {
-      alert(`WINNER WINNER`);
+      props.updateRowIndex();
+
+      if (rowIndex === 6) {
+        alert('Ran out of guesses; game over');
+      }
     }
   };
 
   // end state (bug, repeats twice)
-  if (rowIndex === 6) {
-    alert('Ran out of guesses; game over');
-  }
 
   return (
     <div className="flex flex-col justify-between min-h-screen">
       <NavBar />
-      <Board />
+      <Board boardEvaluations={boardEvaluations} />
       <VirtualKeyboard handleInput={handleInput} />
     </div>
   );
