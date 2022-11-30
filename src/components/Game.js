@@ -9,17 +9,13 @@ import {
   checkValidLength,
   checkValidWord,
   isCorrect,
+  keyEvaluator,
 } from './utils/validator';
 import NavBar from './NavBar';
 
 export const Game = (props) => {
   const [boardEvaluations, setBoardEvaluations] = useState([]);
-  // filter for each of the letters, after evaluation
-  // update corresponding state (absent, present, correct)
-  // send that information to the virtual keyboard
-  // checkSolution should also pass this state down
-  // const [letterEvaluations, setLetterEvaluations] = useState({});
-
+  const [keyEvaluations, setKeyEvaluations] = useState({});
   const guess = props.guesses[props.rowIndex];
   const rowIndex = props.rowIndex;
 
@@ -37,6 +33,7 @@ export const Game = (props) => {
     }
   };
 
+  // TODO: ADD CASES FOR END GAME STATE
   const handleSubmit = () => {
     const validLength = checkValidLength(guess);
     const validWord = checkValidWord(guess);
@@ -48,7 +45,11 @@ export const Game = (props) => {
     } else {
       alert(`Submitting word ${guess}`);
       const rowEvaluation = checkSolution(guess);
+      const updatedKeyEvaluations = keyEvaluator(keyEvaluations, guess);
+
       setBoardEvaluations([...boardEvaluations, rowEvaluation]);
+      setKeyEvaluations(updatedKeyEvaluations);
+
       if (rowEvaluation.every(isCorrect)) {
         alert(`WINNER WINNER`);
         return;
@@ -62,13 +63,14 @@ export const Game = (props) => {
     }
   };
 
-  // end state (bug, repeats twice)
-
   return (
     <div className="flex flex-col justify-between min-h-screen">
       <NavBar />
       <Board boardEvaluations={boardEvaluations} />
-      <VirtualKeyboard handleInput={handleInput} />
+      <VirtualKeyboard
+        keyEvaluations={keyEvaluations}
+        handleInput={handleInput}
+      />
     </div>
   );
 };
