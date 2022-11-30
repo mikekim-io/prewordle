@@ -57,12 +57,10 @@ export const VirtualKeyboard = (props) => {
             key={rowIdx}
           >
             {row.split(' ').map((l, idx) => {
-              console.log(keyEvaluations[l.toLowerCase()]);
               const evalColor = colorEvaluator(
                 keyEvaluations[l.toLowerCase()],
                 'key'
               );
-              console.log(evalColor);
               return (
                 <div
                   className={`text-base font-semibold uppercase align-middle text-center py-5 px-4 rounded ${evalColor}`}

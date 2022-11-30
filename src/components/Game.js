@@ -16,11 +16,6 @@ import NavBar from './NavBar';
 export const Game = (props) => {
   const [boardEvaluations, setBoardEvaluations] = useState([]);
   const [keyEvaluations, setKeyEvaluations] = useState({});
-  // filter for each of the letters, after evaluation
-  // update corresponding state (absent, present, correct)
-  // send that information to the virtual keyboard
-  // checkSolution should also pass this state down
-
   const guess = props.guesses[props.rowIndex];
   const rowIndex = props.rowIndex;
 
@@ -38,6 +33,7 @@ export const Game = (props) => {
     }
   };
 
+  // TODO: ADD CASES FOR END GAME STATE
   const handleSubmit = () => {
     const validLength = checkValidLength(guess);
     const validWord = checkValidWord(guess);
@@ -66,8 +62,6 @@ export const Game = (props) => {
       }
     }
   };
-
-  // end state (bug, repeats twice)
 
   return (
     <div className="flex flex-col justify-between min-h-screen">
