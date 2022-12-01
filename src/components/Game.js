@@ -15,10 +15,12 @@ import {
 import NavBar from './NavBar';
 import { STATUS, updateStatus } from '../redux/status';
 import { setSolution } from '../redux/solution';
+import Toast from './Toast';
 
 export const Game = (props) => {
   const [boardEvaluations, setBoardEvaluations] = useState([]);
   const [keyEvaluations, setKeyEvaluations] = useState({});
+
   const { setSolution } = props;
 
   useEffect(() => {
@@ -26,8 +28,19 @@ export const Game = (props) => {
   }, [setSolution]);
 
   useEffect(() => {
-    checkGameStatus(props.status);
+    checkGameStatus(props.status, [setToast, setShowToast]);
   }, [props.status]);
+
+  const [toast, setToast] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setToast(null);
+      setShowToast(false);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [toast, showToast]);
 
   const guess = props.guesses[props.rowIndex];
   const rowIndex = props.rowIndex;
@@ -46,16 +59,17 @@ export const Game = (props) => {
     }
   };
 
-  // TODO: ADD CASES FOR END GAME STATE
   const handleSubmit = async () => {
     const validLength = checkValidLength(guess);
     const validWord = checkValidWord(guess);
 
     if (props.status === STATUS.IN_PROGRESS) {
       if (!validLength) {
-        alert(`Not enough letters`);
+        setToast('Not enough letters');
+        setShowToast(true);
       } else if (!validWord) {
-        alert('Not in word list');
+        setToast('Not in word list');
+        setShowToast(true);
       } else {
         const rowEvaluation = checkSolution(guess);
         const updatedKeyEvaluations = keyEvaluator(keyEvaluations, guess);
@@ -86,6 +100,7 @@ export const Game = (props) => {
         keyEvaluations={keyEvaluations}
         handleInput={handleInput}
       />
+      <Toast toast={toast} showToast={showToast} />
     </div>
   );
 };
