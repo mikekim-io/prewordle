@@ -1,5 +1,6 @@
 import words from './words';
 import store from '../../store';
+import { STATUS } from '../../redux/status';
 
 export const EVALUATION = {
   CORRECT: 'correct',
@@ -44,9 +45,6 @@ export const colorEvaluator = (evaluation, typeEvaluator) => {
   }
 };
 
-export const isCorrect = (currentLetter) =>
-  currentLetter === EVALUATION.CORRECT;
-
 export const keyEvaluator = (keyEvalObj, guess) => {
   const evaluation = checkSolution(guess);
   for (let i = 0; i < guess.length; i++) {
@@ -69,4 +67,15 @@ export const keyEvaluator = (keyEvalObj, guess) => {
   }
 
   return keyEvalObj;
+};
+
+export const isCorrect = (currentLetter) =>
+  currentLetter === EVALUATION.CORRECT;
+
+export const checkGameStatus = (status) => {
+  if (status === STATUS.WIN) {
+    alert('WIN');
+  } else if (status === STATUS.FAIL) {
+    alert('GAME OVER');
+  }
 };

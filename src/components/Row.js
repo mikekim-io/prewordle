@@ -14,7 +14,12 @@ export const Row = (props) => {
   return (
     <div className="grid grid-cols-5 gap-1.5">
       {word.split('').map((letter, idx) => (
-        <Tile key={idx} letter={letter} tileEvaluation={rowEvaluation[idx]} />
+        <Tile
+          key={idx}
+          letter={letter}
+          idx={idx}
+          tileEvaluation={rowEvaluation[idx]}
+        />
       ))}
     </div>
   );
