@@ -1,11 +1,18 @@
+import words from '../components/utils/words';
+
 const SET_SOLUTION = 'SET_SOLUTION';
 
-export const setSolution = (solution) => ({
-  type: SET_SOLUTION,
-  solution,
-});
+export const setSolution = () => {
+  const solution = words[Math.floor(Math.random() * words.length)];
 
-const INITIAL_STATE = 'words';
+  return {
+    type: SET_SOLUTION,
+    solution,
+  };
+};
+
+const INITIAL_STATE = '';
+
 export const solutionReducer = (solution = INITIAL_STATE, action) => {
   switch (action.type) {
     case SET_SOLUTION:
