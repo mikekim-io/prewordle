@@ -28,21 +28,19 @@ export const Game = (props) => {
   }, [setSolution]);
 
   useEffect(() => {
-    checkGameStatus(props.status, setToast);
+    checkGameStatus(props.status, [setToast, setShowToast]);
   }, [props.status]);
 
-  const [toast, setToast] = useState([]);
+  const [toast, setToast] = useState(null);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (toast.length) {
-        setToast(toast.slice(0, -1));
-      }
-    }, 3000);
-    return () => {
-      clearInterval(interval);
-    };
-  });
+      setToast(null);
+      setShowToast(false);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [toast, showToast]);
 
   const guess = props.guesses[props.rowIndex];
   const rowIndex = props.rowIndex;
@@ -67,9 +65,11 @@ export const Game = (props) => {
 
     if (props.status === STATUS.IN_PROGRESS) {
       if (!validLength) {
-        setToast(...toast, 'Not enough letters');
+        setToast('Not enough letters');
+        setShowToast(true);
       } else if (!validWord) {
-        setToast(...toast, 'Not in word list');
+        setToast('Not in word list');
+        setShowToast(true);
       } else {
         const rowEvaluation = checkSolution(guess);
         const updatedKeyEvaluations = keyEvaluator(keyEvaluations, guess);
@@ -100,7 +100,7 @@ export const Game = (props) => {
         keyEvaluations={keyEvaluations}
         handleInput={handleInput}
       />
-      <Toast toast={toast} />
+      <Toast toast={toast} showToast={showToast} />
     </div>
   );
 };
