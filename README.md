@@ -1,6 +1,6 @@
-# PREWORDLE
+# REWORDLE
 
-Prewordle is an WIP to recreate [NY Times Wordle](https://www.nytimes.com/games/wordle/index.html).
+Rewordle is an WIP to recreate [NY Times Wordle](https://www.nytimes.com/games/wordle/index.html).
 
 The foundation of this project is built using `create-react-app`/`react`, with additional core technologies including `react-redux` and `tailwindcss`.
 
