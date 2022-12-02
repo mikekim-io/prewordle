@@ -11,7 +11,7 @@ export const STATUS = {
   WIN: 'WIN',
 };
 
-const INITIAL_STATE = 'IN_PROGRESS';
+const INITIAL_STATE = STATUS.IN_PROGRESS;
 
 export const statusReducer = (status = INITIAL_STATE, action) => {
   switch (action.type) {

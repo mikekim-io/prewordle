@@ -1,4 +1,5 @@
 import words from '../components/utils/words';
+import { INITIAL_STATE } from './initialState';
 
 const SET_SOLUTION = 'SET_SOLUTION';
 
@@ -11,9 +12,7 @@ export const setSolution = () => {
   };
 };
 
-const INITIAL_STATE = '';
-
-export const solutionReducer = (solution = INITIAL_STATE, action) => {
+export const solutionReducer = (solution = INITIAL_STATE.solution, action) => {
   switch (action.type) {
     case SET_SOLUTION:
       return action.solution;

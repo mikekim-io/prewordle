@@ -16,6 +16,7 @@ import NavBar from './NavBar';
 import { STATUS, updateStatus } from '../redux/status';
 import { setSolution } from '../redux/solution';
 import Toast from './Toast';
+import { newGame } from '../store';
 
 export const Game = (props) => {
   const [boardEvaluations, setBoardEvaluations] = useState([]);
@@ -28,8 +29,8 @@ export const Game = (props) => {
   }, [setSolution]);
 
   useEffect(() => {
-    checkGameStatus(props.status, [setToast, setShowToast]);
-  }, [props.status]);
+    checkGameStatus(props.status, [setToast, setShowToast], props.solution);
+  }, [props.status, props.solution]);
 
   const [toast, setToast] = useState(null);
   const [showToast, setShowToast] = useState(false);
@@ -59,7 +60,7 @@ export const Game = (props) => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     const validLength = checkValidLength(guess);
     const validWord = checkValidWord(guess);
 
@@ -92,9 +93,16 @@ export const Game = (props) => {
     }
   };
 
+  const handleNewGame = () => {
+    setBoardEvaluations([]);
+    setKeyEvaluations({});
+    props.newGame();
+    props.setSolution();
+  };
+
   return (
-    <div className="flex flex-col justify-between min-h-screen">
-      <NavBar />
+    <div className="flex flex-col justify-between min-h-screen select-none">
+      <NavBar handleNewGame={handleNewGame} />
       <Board boardEvaluations={boardEvaluations} />
       <VirtualKeyboard
         keyEvaluations={keyEvaluations}
@@ -118,6 +126,7 @@ const mapDispatch = (dispatch) => ({
   removeLetter: (rowIndex) => dispatch(removeLetter(rowIndex)),
   updateRowIndex: () => dispatch(updateRowIndex()),
   updateStatus: (status) => dispatch(updateStatus(status)),
+  newGame: () => dispatch(newGame()),
 });
 
 export default connect(mapState, mapDispatch)(Game);

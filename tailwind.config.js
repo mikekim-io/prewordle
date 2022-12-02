@@ -10,6 +10,7 @@ module.exports = {
         correct: '#6aaa64',
         present: '#c9b458',
         absent: '#86888a',
+        'dark-green': '#538d4e',
       },
     },
   },
