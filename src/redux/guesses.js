@@ -1,3 +1,5 @@
+import { INITIAL_STATE } from './initialState';
+
 const SET_GUESSES = 'SET_GUESSES';
 const UPDATE_GUESSES = 'UPDATE_GUESSES';
 const ADD_LETTER = 'ADD_LETTER';
@@ -23,9 +25,11 @@ export const removeLetter = (rowIndex) => ({
   type: REMOVE_LETTER,
   rowIndex,
 });
-const INITIAL_STATE = ['', '', '', '', '', ''];
 
-export default function guessesReducer(guesses = INITIAL_STATE, action) {
+export default function guessesReducer(
+  guesses = INITIAL_STATE.guesses,
+  action
+) {
   switch (action.type) {
     case ADD_LETTER:
       // current word in board is relative to rowIndex provided

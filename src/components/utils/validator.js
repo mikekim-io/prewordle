@@ -72,12 +72,12 @@ export const keyEvaluator = (keyEvalObj, guess) => {
 export const isCorrect = (currentLetter) =>
   currentLetter === EVALUATION.CORRECT;
 
-export const checkGameStatus = (status, [setToast, setShowToast]) => {
+export const checkGameStatus = (status, [setToast, setShowToast], solution) => {
   if (status === STATUS.WIN) {
     setToast('WIN');
     setShowToast(true);
   } else if (status === STATUS.FAIL) {
-    setToast('GAME OVER');
+    setToast(`GAME OVER. The word was ${solution}`);
     setShowToast(true);
   }
 };

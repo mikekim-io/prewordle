@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import appReducer from './redux';
 import { createLogger } from 'redux-logger'; // https://github.com/evgenyrodionov/redux-logger
 import thunkMiddleware from 'redux-thunk'; // https://github.com/gaearon/redux-thunk
+import { INITIAL_STATE } from './redux/initialState';
 // import axios from 'axios';
 
 let middleware = [
@@ -21,17 +22,24 @@ middleware = [...middleware, createLogger({ collapsed: true })];
 /** We wrap the entire redux store in a root reducer with a special
  * action, RESET_STORE. It calls our application's reducer with
  * state = undefined. This will trigger each of our sub-reducers
- * to reset back to their initial state. This will come in
- * handy when we need to reset our redux store in between tests.
+ * to reset back to their initial state.
  */
 const RESET_STORE = 'RESET_STORE';
+const NEW_GAME = 'NEW_GAME';
 export const resetStore = () => ({ type: RESET_STORE });
+export const newGame = () => ({ type: NEW_GAME });
+
 const rootReducer = (state, action) => {
-  if (action.type === RESET_STORE) {
-    state = undefined;
-    return appReducer(state, action);
+  switch (action.type) {
+    case RESET_STORE:
+      state = undefined;
+      return appReducer(state, action);
+    case NEW_GAME:
+      state = INITIAL_STATE;
+      return appReducer(state, action);
+    default:
+      return appReducer(state, action);
   }
-  return appReducer(state, action);
 };
 
 // By default, configureStore from Redux Toolkit will:
