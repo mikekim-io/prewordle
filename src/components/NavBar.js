@@ -30,12 +30,12 @@ export const NavBar = (props) => {
       </div>
       <div id="nav-center" className="">
         <h1 className="text-center font-display text-3xl font-sans font-semibold tracking-tighter">
-          PREWORDLE
+          REWORDLE
         </h1>
       </div>
       <div id="nav-right" className="grid justify-items-end">
         <a
-          href="https://github.com/mikekim-io/prewordle"
+          href="https://github.com/mikekim-io/rewordle"
           target="_blank"
           rel="noreferrer"
         >
