@@ -44,37 +44,35 @@ export const VirtualKeyboard = (props) => {
 
   const layout = [
     'Q W E R T Y U I O P',
-    'A S D F G H J K L',
+    '. A S D F G H J K L .',
     'ENTER Z X C V B N M \u232B',
   ];
 
   return (
-    <div className="flex-initial">
-      <div className="grid gap-1 grid-rows-3 justify-center pb-2">
-        {layout.map((row, rowIdx) => (
-          <div
-            className="grid grid-flow-col gap-1.5 justify-center"
-            key={rowIdx}
-          >
-            {row.split(' ').map((l, idx) => {
-              const evalColor = colorEvaluator(
-                keyEvaluations[l.toLowerCase()],
-                'key'
-              );
-              return (
-                <div
-                  className={`text-base font-semibold uppercase align-middle text-center py-5 px-4 rounded ${evalColor}`}
-                  onClick={onClick}
-                  key={idx}
-                  val={l}
-                >
-                  {l}
-                </div>
-              );
-            })}
-          </div>
-        ))}
-      </div>
+    <div className="flex-initial self-center flex flex-col flex-nowrap text-base w-full sm:w-1/2 font-semibold text-center">
+      {layout.map((row, rowIdx) => (
+        <div className=" flex my-1 justify-center items-center" key={rowIdx}>
+          {row.split(' ').map((l, idx) => {
+            const evalColor = colorEvaluator(
+              keyEvaluations[l.toLowerCase()],
+              'key'
+            );
+            return (
+              <button
+                disabled={l === '.'}
+                className={`${l === '.' ? 'flex-0.5' : 'flex-1'}
+                ${l === '.' ? 'text-white bg-white' : evalColor} 
+                h-16 mx-0.5 rounded`}
+                onClick={onClick}
+                key={idx}
+                val={l}
+              >
+                {l}
+              </button>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 };

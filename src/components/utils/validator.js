@@ -24,7 +24,6 @@ export const checkSolution = (guess) => {
       return EVALUATION.ABSENT;
     }
   });
-  console.log(solution, evaluation);
   return evaluation;
 };
 
