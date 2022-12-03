@@ -2,7 +2,6 @@ import React from 'react';
 
 export const Toast = (props) => {
   const { toast, showToast } = props;
-  console.log(showToast);
   if (showToast) {
     return (
       <div

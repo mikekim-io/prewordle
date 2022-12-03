@@ -12,7 +12,7 @@ export const NavBar = (props) => {
       <div className="flex items-center">
         <button
           disabled={!showNewGame}
-          class={`flex-none text-center py-3 px-3 text-md font-semibold rounded transition duration-500 ${
+          className={`flex-none text-center py-3 px-3 text-md font-semibold rounded transition duration-500 ${
             showNewGame
               ? 'bg-absent text-white hover:bg-dark-green'
               : ' text-gray-400 bg-gray-300'
@@ -22,9 +22,9 @@ export const NavBar = (props) => {
           New Game
         </button>
         {showNewGame && (
-          <span class="relative flex self-start top-0 right-2 -mt-1 -mr-1">
-            <span class="animate-ping absolute h-full w-full rounded-full bg-correct opacity-75"></span>
-            <span class="relative rounded-full h-3 w-3 bg-correct"></span>
+          <span className="relative flex self-start top-0 right-2 -mt-1 -mr-1">
+            <span className="animate-ping absolute h-full w-full rounded-full bg-correct opacity-75"></span>
+            <span className="relative rounded-full h-3 w-3 bg-correct"></span>
           </span>
         )}
       </div>
