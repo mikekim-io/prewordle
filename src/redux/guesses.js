@@ -27,7 +27,7 @@ export const removeLetter = (rowIndex) => ({
 });
 
 export default function guessesReducer(
-  guesses = INITIAL_STATE.guesses,
+  guesses = INITIAL_STATE.game.guesses,
   action
 ) {
   switch (action.type) {

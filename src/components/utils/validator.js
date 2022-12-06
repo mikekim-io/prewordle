@@ -13,7 +13,7 @@ export const checkValidWord = (guess) => words.indexOf(guess) > -1;
 export const checkValidLength = (guess) => guess.length === 5;
 
 export const checkSolution = (guess) => {
-  const { solution } = store.getState();
+  const { solution } = store.getState().game;
 
   const evaluation = guess.split('').map((l, idx) => {
     if (l === solution[idx]) {

@@ -19,7 +19,7 @@ export const Board = (props) => {
 };
 
 const mapState = (state) => ({
-  guesses: state.guesses,
+  guesses: state.game.guesses,
 });
 
 export default connect(mapState)(Board);

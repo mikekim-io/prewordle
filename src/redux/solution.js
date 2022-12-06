@@ -12,7 +12,10 @@ export const setSolution = () => {
   };
 };
 
-export const solutionReducer = (solution = INITIAL_STATE.solution, action) => {
+export const solutionReducer = (
+  solution = INITIAL_STATE.game.solution,
+  action
+) => {
   switch (action.type) {
     case SET_SOLUTION:
       return action.solution;

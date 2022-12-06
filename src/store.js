@@ -35,7 +35,7 @@ const rootReducer = (state, action) => {
       state = undefined;
       return appReducer(state, action);
     case NEW_GAME:
-      state = INITIAL_STATE;
+      state = { ...state, game: INITIAL_STATE.game };
       return appReducer(state, action);
     default:
       return appReducer(state, action);
