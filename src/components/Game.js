@@ -25,6 +25,20 @@ export const Game = (props) => {
   const { setSolution } = props;
 
   useEffect(() => {
+    const handleResize = () => {
+      document.documentElement.style.setProperty(
+        '--vh',
+        window.innerHeight * 0.01 + 'px'
+      );
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
     setSolution();
   }, [setSolution]);
 
@@ -101,7 +115,7 @@ export const Game = (props) => {
   };
 
   return (
-    <div className="flex flex-col justify-between min-h-screen select-none">
+    <div className="flex flex-col justify-between h-screen select-none">
       <NavBar handleNewGame={handleNewGame} />
       <Board boardEvaluations={boardEvaluations} />
       <VirtualKeyboard
