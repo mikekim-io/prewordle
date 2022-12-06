@@ -49,7 +49,7 @@ export const VirtualKeyboard = (props) => {
   ];
 
   return (
-    <div className="flex-initial self-center flex flex-col flex-nowrap text-base w-full sm:w-1/2 font-semibold text-center">
+    <div className="flex-initial self-center flex flex-col flex-nowrap w-full max-w-500px py-1 text-xs sm:text-base font-semibold text-center">
       {layout.map((row, rowIdx) => (
         <div className=" flex my-1 justify-center items-center" key={rowIdx}>
           {row.split(' ').map((l, idx) => {
@@ -62,7 +62,7 @@ export const VirtualKeyboard = (props) => {
                 disabled={l === '.'}
                 className={`${l === '.' ? 'flex-0.5' : 'flex-1'}
                 ${l === '.' ? 'text-white bg-white' : evalColor} 
-                h-16 mx-0.5 rounded`}
+                h-14 sm:h-14 p-1 mx-1 rounded`}
                 onClick={onClick}
                 key={idx}
                 val={l}

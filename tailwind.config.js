@@ -17,6 +17,9 @@ module.exports = {
         absent: '#86888a',
         'dark-green': '#538d4e',
       },
+      maxWidth: {
+        '500px': '500px',
+      },
     },
   },
   plugins: [],
