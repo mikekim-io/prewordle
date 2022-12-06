@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { STATUS } from '../redux/status';
 
 export const NavBar = (props) => {
+  const { setShowStats } = props;
   const showNewGame = props.status !== STATUS.IN_PROGRESS;
 
   return (
@@ -34,13 +35,34 @@ export const NavBar = (props) => {
             REWORDLE
           </h1>
         </div>
-        <div id="nav-right" className="grid justify-items-end">
+        <div id="nav-right" className="grid grid-flow-col justify-end">
+          <button
+            type="button"
+            id="statistics-button"
+            aria-label="statistics"
+            onClick={() => setShowStats(true)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="game-icon w-6 h-6 sm:w-8 sm:h-8 mr-2"
+              viewBox="4 4 24 24"
+            >
+              <path
+                fill="black"
+                d="M20.6666 14.8333V5.5H11.3333V12.5H4.33325V26.5H27.6666V14.8333H20.6666ZM13.6666 7.83333H18.3333V24.1667H13.6666V7.83333ZM6.66659 14.8333H11.3333V24.1667H6.66659V14.8333ZM25.3333 24.1667H20.6666V17.1667H25.3333V24.1667Z"
+              ></path>
+            </svg>
+          </button>
           <a
             href="https://github.com/mikekim-io/rewordle"
             target="_blank"
             rel="noreferrer"
           >
-            <img src="/GitHub-Mark-32px.png" alt="github-icon" className="" />
+            <img
+              src="/GitHub-Mark-32px.png"
+              alt="github-icon"
+              className="w-6 h-6 sm:w-8 sm:h-8"
+            />
           </a>
         </div>
       </div>
@@ -49,7 +71,7 @@ export const NavBar = (props) => {
 };
 
 const mapState = (state) => ({
-  status: state.status,
+  status: state.game.status,
 });
 
 export default connect(mapState)(NavBar);

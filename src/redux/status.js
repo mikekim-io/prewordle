@@ -1,3 +1,5 @@
+import { INITIAL_STATE } from './initialState';
+
 const UPDATE_STATUS = 'UPDATE_STATUS';
 
 export const updateStatus = (status) => ({
@@ -11,9 +13,7 @@ export const STATUS = {
   WIN: 'WIN',
 };
 
-const INITIAL_STATE = STATUS.IN_PROGRESS;
-
-export const statusReducer = (status = INITIAL_STATE, action) => {
+export const statusReducer = (status = INITIAL_STATE.game.status, action) => {
   switch (action.type) {
     case UPDATE_STATUS:
       return action.status;

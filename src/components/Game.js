@@ -17,6 +17,8 @@ import { STATUS, updateStatus } from '../redux/status';
 import { setSolution } from '../redux/solution';
 import Toast from './Toast';
 import { newGame } from '../store';
+import Stats from './Stats';
+import { updateStats } from '../redux/stats';
 
 export const Game = (props) => {
   const [boardEvaluations, setBoardEvaluations] = useState([]);
@@ -48,6 +50,7 @@ export const Game = (props) => {
 
   const [toast, setToast] = useState(null);
   const [showToast, setShowToast] = useState(false);
+  const [showStats, setShowStats] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -96,9 +99,13 @@ export const Game = (props) => {
         // All letters match, or you've reached your last guess
         if (rowEvaluation.every(isCorrect)) {
           props.updateStatus(STATUS.WIN);
+          props.updateStats(STATUS.WIN, rowIndex + 1);
+          setShowStats(true);
           return;
         } else if (rowIndex === 5) {
           props.updateStatus(STATUS.FAIL);
+          props.updateStats(STATUS.FAIL);
+          setShowStats(true);
           return;
         }
 
@@ -116,22 +123,23 @@ export const Game = (props) => {
 
   return (
     <div className="flex flex-col justify-between h-screen select-none">
-      <NavBar handleNewGame={handleNewGame} />
+      <NavBar handleNewGame={handleNewGame} setShowStats={setShowStats} />
       <Board boardEvaluations={boardEvaluations} />
       <VirtualKeyboard
         keyEvaluations={keyEvaluations}
         handleInput={handleInput}
       />
       <Toast toast={toast} showToast={showToast} />
+      <Stats showStats={showStats} setShowStats={setShowStats} />
     </div>
   );
 };
 
 const mapState = (state) => ({
-  guesses: state.guesses,
-  rowIndex: state.rowIndex,
-  status: state.status,
-  solution: state.solution,
+  guesses: state.game.guesses,
+  rowIndex: state.game.rowIndex,
+  status: state.game.status,
+  solution: state.game.solution,
 });
 
 const mapDispatch = (dispatch) => ({
@@ -140,6 +148,7 @@ const mapDispatch = (dispatch) => ({
   removeLetter: (rowIndex) => dispatch(removeLetter(rowIndex)),
   updateRowIndex: () => dispatch(updateRowIndex()),
   updateStatus: (status) => dispatch(updateStatus(status)),
+  updateStats: (status, rowIndex) => dispatch(updateStats(status, rowIndex)),
   newGame: () => dispatch(newGame()),
 });
 

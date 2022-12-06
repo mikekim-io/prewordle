@@ -26,7 +26,7 @@ export const Row = (props) => {
 };
 
 const mapState = (state) => ({
-  guesses: state.guesses,
+  guesses: state.game.guesses,
 });
 
 export default connect(mapState)(Row);

@@ -7,7 +7,7 @@ export const updateRowIndex = () => ({
 });
 
 export default function updateRowIndexReucer(
-  rowIndex = INITIAL_STATE.rowIndex,
+  rowIndex = INITIAL_STATE.game.rowIndex,
   action
 ) {
   switch (action.type) {
