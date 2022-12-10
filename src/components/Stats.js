@@ -11,42 +11,81 @@ const Stats = (props) => {
     averageGuesses,
     isOnStreak,
     hasPlayed,
+    rowIndex,
   } = props;
+  const maxGuess = Math.max(...Object.values(guesses));
 
   if (showStats) {
     return (
       <div className="fixed z-10">
         <div className="absolute inset-0 w-screen h-screen bg-gray-200 opacity-50"></div>
         <div className="fixed inset-0">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full items-end justify-center sm:items-center">
             <div className="relative rounded-lg overflow-y-auto bg-white text-left shadow-2xl w-screen sm:my-8 sm:w-full sm:max-w-lg">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="sm:flex sm:items-start">
-                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    <h3
-                      className="text-lg font-medium leading-6 text-gray-900"
-                      id="modal-title"
-                    >
-                      Game Play Statistics
-                    </h3>
-                    <div className="mt-2">
-                      <ol>
-                        <li>
-                          Guesses:{' '}
-                          {Object.entries(guesses).map((guess, idx) => (
-                            <div key={idx}>
-                              {guess[0]}:{guess[1]}
-                            </div>
-                          ))}
-                        </li>
-                        <li>Current Streak: {currentStreak}</li>
-                        <li>Best Streak: {bestStreak}</li>
-                        <li>Games Played: {gamesPlayed}</li>
-                        <li>Average # of Guesses: {averageGuesses}</li>
-                        <li>Current Streak Status: {isOnStreak.toString()}</li>
-                        <li>Has Played a Game: {hasPlayed.toString()}</li>
-                      </ol>
+              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 flex flex-col min-h-full text-center">
+                <div className="flex flex-col items-center p-5">
+                  <h3 className="text-center text-sm font-bold">STATISTICS</h3>
+                  <div className="flex flex-row">
+                    <div className="mx-2">
+                      <h1 className="text-4xl"> {gamesPlayed}</h1>
+                      <h5 className="text-xs">Played</h5>
                     </div>
+                    <div className="mx-2">
+                      <h1 className="text-4xl">
+                        {gamesPlayed
+                          ? (
+                              (Object.entries(guesses)
+                                .map((guess) => guess[1])
+                                .reduce((a, b) => a + b) /
+                                gamesPlayed) *
+                              100
+                            ).toFixed(0)
+                          : 0}
+                      </h1>
+                      <h5 className="text-xs">Win %</h5>
+                    </div>
+                    <div className="mx-2">
+                      <h1 className="text-4xl">{currentStreak}</h1>
+                      <h5 className="text-xs">
+                        Current
+                        <br />
+                        Streak
+                      </h5>
+                    </div>
+                    <div className="mx-2">
+                      <h1 className="text-4xl">{bestStreak}</h1>
+                      <h5 className="text-xs">
+                        Max
+                        <br />
+                        Streak
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-center ">
+                  <h3 className="text-center text-sm font-bold">
+                    GUESS DISTRIBUTION
+                  </h3>
+                  <div className="flex flex-col w-full max-w-500">
+                    {Object.entries(guesses)
+                      .filter((guess) => guess[0] !== 'fail')
+                      .map((guess) => (
+                        <div className="w-full flex flex-row text-xs font-bold p-1 items-center">
+                          <div className="mx-1 flex-auto">{guess[0]}</div>
+                          <div
+                            className={`text-xs w-calc[(100%-50px)] ${
+                              parseInt(guess[0]) === rowIndex + 1
+                                ? 'bg-correct'
+                                : 'bg-gray-500'
+                            }`}
+                          >
+                            <div className="font-medium text-white p-0.5">
+                              {guess[1]}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -75,6 +114,7 @@ const mapState = (state) => ({
   averageGuesses: state.stats.averageGuesses,
   isOnStreak: state.stats.isOnStreak,
   hasPlayed: state.stats.hasPlayed,
+  rowIndex: state.game.rowIndex,
 });
 
 export default connect(mapState)(Stats);
