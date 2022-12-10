@@ -8,11 +8,16 @@ const Stats = (props) => {
     currentStreak,
     bestStreak,
     gamesPlayed,
-    averageGuesses,
-    isOnStreak,
-    hasPlayed,
     rowIndex,
+    // eslint-disable-next-line no-unused-vars
+    averageGuesses,
+    // eslint-disable-next-line no-unused-vars
+    isOnStreak,
+    // eslint-disable-next-line no-unused-vars
+    hasPlayed,
   } = props;
+
+  // eslint-disable-next-line no-unused-vars
   const maxGuess = Math.max(...Object.values(guesses));
 
   if (showStats) {
