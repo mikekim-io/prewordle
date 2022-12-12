@@ -26,8 +26,11 @@ if (process.env.NODE_ENV === 'production') {
  */
 const RESET_STORE = 'RESET_STORE';
 const NEW_GAME = 'NEW_GAME';
+const LOAD_GAME = 'LOAD_GAME';
+
 export const resetStore = () => ({ type: RESET_STORE });
 export const newGame = () => ({ type: NEW_GAME });
+export const loadGame = (state) => ({ type: LOAD_GAME, state });
 
 const rootReducer = (state, action) => {
   switch (action.type) {
@@ -36,6 +39,9 @@ const rootReducer = (state, action) => {
       return appReducer(state, action);
     case NEW_GAME:
       state = { ...state, game: INITIAL_STATE.game };
+      return appReducer(state, action);
+    case LOAD_GAME:
+      state = action.state;
       return appReducer(state, action);
     default:
       return appReducer(state, action);

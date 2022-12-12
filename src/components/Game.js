@@ -16,15 +16,16 @@ import NavBar from './NavBar';
 import { STATUS, updateStatus } from '../redux/status';
 import { setSolution } from '../redux/solution';
 import Toast from './Toast';
-import { newGame } from '../store';
+import { loadGame, newGame } from '../store';
 import Stats from './Stats';
 import { updateStats } from '../redux/stats';
+import { setLocalStorage } from './utils/tools';
 
 export const Game = (props) => {
   const [boardEvaluations, setBoardEvaluations] = useState([]);
   const [keyEvaluations, setKeyEvaluations] = useState({});
 
-  const { setSolution } = props;
+  const { setSolution, loadGame } = props;
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,8 +42,15 @@ export const Game = (props) => {
   }, []);
 
   useEffect(() => {
-    setSolution();
-  }, [setSolution]);
+    const localStorageState = localStorage.getItem('rewordle-state');
+    if (!localStorageState) {
+      setSolution();
+      setLocalStorage();
+    } else {
+      const gameState = JSON.parse(localStorageState);
+      loadGame(gameState);
+    }
+  }, [setSolution, loadGame]);
 
   useEffect(() => {
     checkGameStatus(props.status, [setToast, setShowToast], props.solution);
@@ -100,16 +108,19 @@ export const Game = (props) => {
         if (rowEvaluation.every(isCorrect)) {
           props.updateStatus(STATUS.WIN);
           props.updateStats(STATUS.WIN, rowIndex + 1);
+          setLocalStorage();
           setShowStats(true);
           return;
         } else if (rowIndex === 5) {
           props.updateStatus(STATUS.FAIL);
           props.updateStats(STATUS.FAIL);
+          setLocalStorage();
           setShowStats(true);
           return;
         }
 
         props.updateRowIndex();
+        setLocalStorage();
       }
     }
   };
@@ -119,6 +130,7 @@ export const Game = (props) => {
     setKeyEvaluations({});
     props.newGame();
     props.setSolution();
+    localStorage.setItem('rewordle-state', JSON.stringify(props.state));
   };
 
   return (
@@ -136,6 +148,7 @@ export const Game = (props) => {
 };
 
 const mapState = (state) => ({
+  state: state,
   guesses: state.game.guesses,
   rowIndex: state.game.rowIndex,
   status: state.game.status,
@@ -150,6 +163,7 @@ const mapDispatch = (dispatch) => ({
   updateStatus: (status) => dispatch(updateStatus(status)),
   updateStats: (status, rowIndex) => dispatch(updateStats(status, rowIndex)),
   newGame: () => dispatch(newGame()),
+  loadGame: (state) => dispatch(loadGame(state)),
 });
 
 export default connect(mapState, mapDispatch)(Game);
