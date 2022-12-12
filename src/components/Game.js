@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Board from './Board';
 import VirtualKeyboard from './VirtualKeyboard';
 import { connect } from 'react-redux';
@@ -67,15 +67,6 @@ export const Game = (props) => {
     }, 2000);
     return () => clearInterval(interval);
   }, [toast, showToast]);
-
-  const prevRowRef = useRef();
-  const prevStatus = useRef();
-  useEffect(() => {
-    prevRowRef.current = props.rowIndex;
-    prevStatus.current = props.status;
-    if (prevRowRef.current !== props.rowIndex) {
-    }
-  }, [props.rowIndex, props.status]);
 
   const guess = props.guesses[props.rowIndex];
   const rowIndex = props.rowIndex;
