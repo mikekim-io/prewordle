@@ -27,6 +27,9 @@ export const Game = (props) => {
 
   const { setSolution, loadGame } = props;
 
+  const guess = props.guesses[props.rowIndex];
+  const rowIndex = props.rowIndex;
+
   useEffect(() => {
     const handleResize = () => {
       document.documentElement.style.setProperty(
@@ -49,8 +52,20 @@ export const Game = (props) => {
     } else {
       const gameState = JSON.parse(localStorageState);
       loadGame(gameState);
+      const localStorageEvaluations = gameState.game.guesses
+        .filter((guess) => guess !== '')
+        .map((guess) => checkSolution(guess));
+      const localStorageKeyEvaluations = {};
+
+      gameState.game.guesses.forEach((guess) =>
+        keyEvaluator(localStorageKeyEvaluations, guess)
+      );
+
+      setBoardEvaluations([...localStorageEvaluations]);
+      setKeyEvaluations({ ...localStorageKeyEvaluations });
     }
-  }, [setSolution, loadGame]);
+    return () => {};
+  }, [loadGame, setSolution, setBoardEvaluations, setKeyEvaluations]);
 
   useEffect(() => {
     checkGameStatus(props.status, [setToast, setShowToast], props.solution);
@@ -67,9 +82,6 @@ export const Game = (props) => {
     }, 2000);
     return () => clearInterval(interval);
   }, [toast, showToast]);
-
-  const guess = props.guesses[props.rowIndex];
-  const rowIndex = props.rowIndex;
 
   const handleInput = (key) => {
     const re = /[a-z]/i;
@@ -98,8 +110,8 @@ export const Game = (props) => {
         setShowToast(true);
       } else {
         const rowEvaluation = checkSolution(guess);
+        console.log(boardEvaluations);
         const updatedKeyEvaluations = keyEvaluator(keyEvaluations, guess);
-
         setBoardEvaluations([...boardEvaluations, rowEvaluation]);
         setKeyEvaluations(updatedKeyEvaluations);
 
@@ -130,7 +142,7 @@ export const Game = (props) => {
     setKeyEvaluations({});
     props.newGame();
     props.setSolution();
-    localStorage.setItem('rewordle-state', JSON.stringify(props.state));
+    setLocalStorage();
   };
 
   return (
