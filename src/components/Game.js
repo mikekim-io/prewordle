@@ -20,11 +20,15 @@ import { loadGame, newGame } from '../store';
 import Stats from './Stats';
 import { updateStats } from '../redux/stats';
 import { setLocalStorage } from './utils/tools';
+import Help from './Help';
 
 export const Game = (props) => {
   const [boardEvaluations, setBoardEvaluations] = useState([]);
   const [keyEvaluations, setKeyEvaluations] = useState({});
-
+  const [toast, setToast] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+  const [showStats, setShowStats] = useState(false);
+  const [showHelp, setShowHelp] = useState(true);
   const { setSolution, loadGame } = props;
 
   const guess = props.guesses[props.rowIndex];
@@ -70,10 +74,6 @@ export const Game = (props) => {
   useEffect(() => {
     checkGameStatus(props.status, [setToast, setShowToast], props.solution);
   }, [props.status, props.solution]);
-
-  const [toast, setToast] = useState(null);
-  const [showToast, setShowToast] = useState(false);
-  const [showStats, setShowStats] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -147,13 +147,18 @@ export const Game = (props) => {
 
   return (
     <div className="flex flex-col justify-between h-screen select-none">
-      <NavBar handleNewGame={handleNewGame} setShowStats={setShowStats} />
+      <NavBar
+        handleNewGame={handleNewGame}
+        setShowStats={setShowStats}
+        setShowHelp={setShowHelp}
+      />
       <Board boardEvaluations={boardEvaluations} />
       <VirtualKeyboard
         keyEvaluations={keyEvaluations}
         handleInput={handleInput}
       />
       <Toast toast={toast} showToast={showToast} />
+      <Help showHelp={showHelp} setShowHelp={setShowHelp} />
       <Stats showStats={showStats} setShowStats={setShowStats} />
     </div>
   );

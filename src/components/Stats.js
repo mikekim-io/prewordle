@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { STATUS } from '../redux/status';
 
 const Stats = (props) => {
   const {
@@ -9,6 +10,7 @@ const Stats = (props) => {
     bestStreak,
     gamesPlayed,
     rowIndex,
+    status,
     // eslint-disable-next-line no-unused-vars
     averageGuesses,
     // eslint-disable-next-line no-unused-vars
@@ -40,6 +42,7 @@ const Stats = (props) => {
                         {gamesPlayed
                           ? (
                               (Object.entries(guesses)
+                                .filter((guess) => guess[0] !== 'fail')
                                 .map((guess) => guess[1])
                                 .reduce((a, b) => a + b) /
                                 gamesPlayed) *
@@ -75,11 +78,15 @@ const Stats = (props) => {
                   <div className="flex flex-col w-full max-w-500">
                     {Object.entries(guesses)
                       .filter((guess) => guess[0] !== 'fail')
-                      .map((guess) => (
-                        <div className="w-full flex flex-row text-xs font-bold p-1 items-center">
+                      .map((guess, idx) => (
+                        <div
+                          key={idx}
+                          className="w-full flex flex-row text-xs font-bold p-1 items-center"
+                        >
                           <div className="mx-1 flex-auto">{guess[0]}</div>
                           <div
                             className={`text-xs w-calc[(100%-50px)] ${
+                              status === STATUS.WIN &&
                               parseInt(guess[0]) === rowIndex + 1
                                 ? 'bg-correct'
                                 : 'bg-gray-500'
@@ -120,6 +127,7 @@ const mapState = (state) => ({
   isOnStreak: state.stats.isOnStreak,
   hasPlayed: state.stats.hasPlayed,
   rowIndex: state.game.rowIndex,
+  status: state.game.status,
 });
 
 export default connect(mapState)(Stats);
